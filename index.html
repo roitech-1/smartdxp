@@ -1,0 +1,2373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDXP - (주)로이테크원</title>
+    <!-- 폰트: Pretendard -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <!-- 아이콘: FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==================== 
+           디자인 시스템 및 변수 
+           ==================== */
+        :root {
+            --primary-color: #007BFF;
+            --primary-dark: #0056b3;
+            --bg-white: #FFFFFF;
+            --bg-light: #F8F9FA;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --text-light: #999999;
+            --footer-bg: #222222;
+            --footer-text: #CCCCCC;
+            --border-color: #E5E5E5;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        /* ==================== 
+           초기화 및 기본 스타일 
+           ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* 컨테이너 */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 섹션 공통 */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        /* 버튼 컴포넌트 (파란색으로 변경) */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ==================== 
+           Header (헤더) 
+           ==================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--text-dark);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* ==================== 
+           Hero Section (메인) 
+           ==================== */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 100px;
+            /* 배경 이미지와 어두운 오버레이 적용 */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            word-break: keep-all;
+            color: var(--bg-white); 
+        }
+
+        .hero-text h1 span {
+            color: #66B2FF; 
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: #E5E5E5;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        /* ==================== 
+           About Us (소개) 
+           ==================== */
+        .about {
+            background-color: var(--bg-white);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-description {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .philosophy-box {
+            background-color: var(--bg-light);
+            border-left: 6px solid var(--primary-color);
+            padding: 40px;
+            border-radius: 0 12px 12px 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .philosophy-box h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .philosophy-box p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        /* ==================== 
+           Products (제품) 
+           ==================== */
+        .products {
+            background-color: var(--bg-light);
+        }
+
+        .products-highlight {
+            background-color: rgba(0, 123, 255, 0.05);
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-top: 4px solid transparent;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .feature-body {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* ==================== 
+           Customers (고객 후기 - 아코디언 UI) 
+           ==================== */
+        .customers {
+            background-color: var(--bg-white);
+        }
+
+        .accordion-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .accordion-header {
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: var(--bg-light);
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #f0f7ff;
+        }
+
+        .accordion-header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-header-title h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .accordion-header-title p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .accordion-icon {
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .accordion-item.active {
+            border-color: rgba(0, 123, 255, 0.4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .accordion-item.active .accordion-header {
+            background-color: #f0f7ff;
+            border-bottom: 1px solid rgba(0, 123, 255, 0.1);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            background-color: var(--bg-white);
+        }
+
+        .accordion-inner {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .accordion-item.active .accordion-inner {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reviewer-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .review-details {
+            flex-grow: 1;
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .review-text {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+            word-break: keep-all;
+            font-style: italic;
+            margin: 0;
+        }
+
+        /* ==================== 
+           Video (홍보 영상) 
+           ==================== */
+        .video {
+            background-color: var(--bg-light);
+        }
+
+        /* ==================== 
+           Services (서비스) 
+           ==================== */
+        .services {
+            background-color: var(--bg-white); 
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .service-box {
+            padding: 50px;
+            border-radius: 16px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .service-box:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0, 123, 255, 0.3);
+            background-color: var(--bg-white);
+        }
+
+        .service-box i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .service-box h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .service-box p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .service-promise {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ==================== 
+           Booking & Location 
+           ==================== */
+        .booking {
+            background-color: var(--bg-light); 
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            background-color: var(--bg-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-form {
+            padding: 50px;
+        }
+
+        .booking-form h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .booking-form .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .location-info {
+            padding: 50px;
+            background-color: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-list {
+            margin-bottom: 40px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            margin-right: 16px;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .info-text h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .info-text p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .map-container {
+            flex-grow: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            min-height: 250px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ==================== 
+           Footer 
+           ==================== */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ==================== 
+           반응형 디자인 (미디어 쿼리) 
+           ==================== */
+        @media (max-width: 992px) {
+            .hero-content {
+                text-align: center;
+            }
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .services-grid {
+                gap: 20px;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 70px 0;
+            }
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--bg-white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: var(--transition);
+                box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .hero {
+                padding-top: 120px;
+            }
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .accordion-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .philosophy-box {
+                padding: 30px 20px;
+            }
+            .philosophy-box p {
+                font-size: 1.4rem;
+            }
+            .products-highlight {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">Roitechone<span>.</span></a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#about" class="nav-link">회사 소개</a></li>
+                <li><a href="#products" class="nav-link">제품 소개</a></li>
+                <li><a href="#customers" class="nav-link">고객 후기</a></li>
+                <li><a href="#video" class="nav-link">홍보 영상</a></li>
+                <li><a href="#services" class="nav-link">서비스</a></li>
+                <li><a href="#booking" class="nav-link">문의 및 예약</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>설계 엔지니어링 업무,<br><span>더 <span>잘하고 <span>놓치지 않게<br> <h1>도와 주는 플랫폼,<br><span>SmartDXP</h1>
+                <p>(주)로이테크원이 제공하는 엔지니어링 특화 솔루션으로 <br>복잡한 설계 프로세스를 표준화하고 기업의 핵심 데이터를 자산화하세요.</p>
+                <a href="#booking" class="btn">도입 문의하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About 로이테크원</h2>
+                <h3 class="section-subtitle">설계 엔지니어링의 미래를 설계하는 파트너</h3>
+                
+                <p class="about-description">
+                    (주)로이테크원은 다년간 축적된 엔지니어링 산업의 이해도와 IT 기술력을 바탕으로, 
+                    설계 기업들이 겪는 실무적인 어려움을 해결하는 데 집중합니다.<br>
+                    수많은 주요 실적을 통해 검증된 우리의 솔루션은 기업의 경쟁력을 한 단계 높여줍니다.
+                </p>
+
+                <div class="philosophy-box">
+                    <h3>운영 철학</h3>
+                    <p>"최고의 기술로, 고객의 ROI를 생각하는 기업"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">SmartDXP</h2>
+            <h3 class="section-subtitle">설계 프로세스 혁신 플랫폼</h3>
+
+            <div class="products-highlight">
+                "업무 누락, 일정 지연, 반복 작업을 줄이고 설계 프로세스를 표준화하여<br>누구나 안정적으로 성과를 내는 환경을 만듭니다."
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop" alt="프로젝트 계획 및 WBS 기반 업무" class="feature-image">
+                    <div class="feature-body">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3>WBS/Act. 기반 업무 수행</h3>
+                        <p>업무가이드 및 매뉴얼, 표준 문서양식, 연결 TOOL 연결, 실시간 이슈 공유 및 선행사례를 제공하여 체계적인 업무 환경을 지원합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?q=80&w=800&auto=format&fit=crop" alt="일정 및 캘린더 관리" class="feature-image">
+                    <div class="feature-body">
+                        <div class="feature-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <h3>담당자와 일정 관리</h3>
+                        <p>명확한 책임수행 체계를 확립하고, 업무 지연 및 누락을 사전에 방지하여 프로젝트의 성공적인 완수를 보장합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="데이터 분석 및 축적" class="feature-image">
+                    <div class="feature-body">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h3>자연스러운 DATA DB 축적</h3>
+                        <p>업무 과정 중 발생하는 DATA를 자동으로 축적합니다. 중복 업무를 배제하고 기업의 소중한 데이터를 영구적인 자산화로 이끕니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customers (고객 후기) -->
+    <section id="customers" class="customers">
+        <div class="container">
+            <h2 class="section-title">Customer Reviews</h2>
+            <h3 class="section-subtitle">SmartDXP와 함께 성장하는 고객들의 이야기</h3>
+            
+            <div class="accordion-container">
+                <!-- 리뷰 1: 40대 남성 -->
+                <div class="accordion-item active">
+                    <div class="accordion-header">
+                        <div class="accordion-header-title">
+                            <h4>이** 수석</h4>
+                            <p>| A 건축사사무소</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop" alt="노트북 앞에서 밝게 웃는 40대 남성 엔지니어" class="reviewer-img">
+                            <div class="review-details">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="review-text">"기존에는 엑셀로 일정을 관리하느라 누락되는 업무가 많았는데, SmartDXP 도입 후 프로젝트 가시성이 확연히 좋아졌습니다. 업무 효율이 놀라울 정도로 향상되었습니다."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 리뷰 2: 40대 여성 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-header-title">
+                            <h4>박** 파트장</h4>
+                            <p>| B 엔지니어링</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400&auto=format&fit=crop" alt="노트북 앞에서 편안하게 미소 짓는 40대 여성 파트장" class="reviewer-img">
+                            <div class="review-details">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="review-text">"팀원들의 업무 진행 상황을 한눈에 파악할 수 있어 프로젝트 매니징이 정말 수월해졌어요. 문서 표준화 덕분에 결과물의 품질도 언제나 높게 유지할 수 있습니다."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 리뷰 3: 20대 남성 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-header-title">
+                            <h4>최** 사원</h4>
+                            <p>| C 설계사무소</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=400&auto=format&fit=crop" alt="노트북 앞에서 만족스럽게 웃고 있는 20대 남성 신입사원" class="reviewer-img">
+                            <div class="review-details">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <p class="review-text">"입사 직후 업무 적응이 걱정이었는데, WBS 기반 가이드와 선행 사례가 시스템에 잘 정리되어 있어 바로 실무에 투입될 수 있었습니다. UI도 직관적이라 편해요!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video (홍보 영상) -->
+    <section id="video" class="video">
+        <div class="container">
+            <h2 class="section-title">SmartDXP Video</h2>
+            <h3 class="section-subtitle">영상을 통해 SmartDXP의 혁신을 직접 확인해 보세요.</h3>
+            
+            <div style="max-width: 1000px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-md); background-color: #000;">
+                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1185156776?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="SmartDXP_설계_업무_혁신_플랫폼"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">제공 서비스</h2>
+            <h3 class="section-subtitle">도입부터 운영까지 완벽한 지원 체계</h3>
+
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-box">
+                    <i class="fa-solid fa-cloud"></i>
+                    <h3>CLOUD 서비스</h3>
+                    <p>서버 등 고가의 인프라를 직접 구축할 필요 없이 제공합니다. 전문 IDC 인프라를 활용하여 24시간 365일 안정된 시스템 성능과 강력한 보안 환경을 약속합니다.</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-box">
+                    <i class="fa-solid fa-headset"></i>
+                    <h3>전문 교육 및 운영 서비스</h3>
+                    <p>풍부한 경험을 갖춘 전문기술자가 직접 사용자 교육을 진행합니다. 신속한 전화/이메일 사용자 응대와 요구 시 원격지원 서비스를 통해 막힘없는 실무를 돕습니다.</p>
+                </div>
+            </div>
+
+            <div class="service-promise">
+                "오랜 경험의 서비스를 통해 차별화된 만족감을 약속합니다."
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking & Location -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <h2 class="section-title">문의 및 오시는 길</h2>
+            <h3 class="section-subtitle">지금 바로 상담을 예약하시고, 혁신을 시작하세요.</h3>
+
+            <div class="booking-grid">
+                <!-- Form -->
+                <div class="booking-form">
+                    <h3>상담 및 도입 문의</h3>
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="name">이름 (회사명)</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="홍길동 (또는 기업명)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">이메일 주소</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="example@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">연락처</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="010-0000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">방문/상담 희망일자</label>
+                            <input type="date" id="date" name="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">질문 내용</label>
+                            <textarea id="message" name="message" class="form-control" rows="4" placeholder="문의하실 내용을 상세히 적어주세요."></textarea>
+                        </div>
+                        <button type="submit" class="btn">상담 문의하기</button>
+                    </form>
+                </div>
+
+                <!-- Info & Map -->
+                <div class="location-info">
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="info-text">
+                                <h4>고객센터 연락처</h4>
+                                <p>1644-8665</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+                            <div class="info-text">
+                                <h4>운영 시간</h4>
+                                <p>평일 오전 9시 ~ 오후 6시</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="info-text">
+                                <h4>오시는 길</h4>
+                                <p>서울시 구로구 디지털로 272</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Google Maps iframe -->
+                    <div class="map-container">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=서울시%20구로구%20디지털로%20272&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p>Copyright 2026 Roitechone Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 헤더 스크롤 그림자 효과
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // 2. 모바일 메뉴 토글
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                const icon = mobileToggle.querySelector('i');
+                if(navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // 모바일 메뉴 링크 클릭 시 메뉴 닫기
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    const icon = mobileToggle.querySelector('i');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // 3. 부드러운 스크롤 이동 (Smooth Scroll)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        // 헤더 높이만큼 오프셋 계산 (80px)
+                        const headerHeight = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // 4. Accordion Toggle (고객 후기)
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            // 초기 활성화된 아코디언의 높이 설정 (초기 렌더링 시 적용)
+            const initActiveItem = document.querySelector('.accordion-item.active .accordion-content');
+            if (initActiveItem) {
+                initActiveItem.style.maxHeight = initActiveItem.scrollHeight + "px";
+            }
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const content = item.querySelector('.accordion-content');
+                    
+                    if (item.classList.contains('active')) {
+                        // 열려있으면 닫기
+                        item.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        // 다른 열려있는 모든 아코디언 닫기
+                        document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                            if(otherItem.querySelector('.accordion-content')) {
+                                otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                            }
+                        });
+                        
+                        // 현재 클릭한 아코디언 열기
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // 5. 구글 시트 연동 예약 폼 제출 처리
+            const form = document.getElementById('booking-form');
+            // TODO: 연동 가이드를 따라 발급받은 URL을 아래 문자열에 붙여넣으세요.
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby2ErsYynDJ3aeNwNrNIuPBDsq9lSV-b2-8s0W8V3SnEfrHIfWL6B5CZm2O6iHsaVME/exechttps://script.google.com/macros/s/AKfycby2ErsYynDJ3aeNwNrNIuPBDsq9lSV-b2-8s0W8V3SnEfrHIfWL6B5CZm2O6iHsaVME/exec';
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                
+                if(scriptURL === 'https://script.google.com/macros/s/AKfycby2ErsYynDJ3aeNwNrNIuPBDsq9lSV-b2-8s0W8V3SnEfrHIfWL6B5CZm2O6iHsaVME/exec') {
+                    alert('구글 시트 연동 URL이 설정되지 않았습니다.\n개발 가이드를 참고하여 scriptURL을 업데이트 해주세요.');
+                    return;
+                }
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerText;
+                submitBtn.innerText = '전송 중...';
+                submitBtn.disabled = true;
+
+                // 폼 데이터 수집
+                const formData = new FormData(form);
+
+                // 구글 스크립트로 데이터 전송 (CORS 이슈 방지를 위해 no-cors 모드 사용)
+                fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' })
+                    .then(() => {
+                        alert('상담 문의가 성공적으로 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
+                        form.reset();
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Error!', error.message);
+                        alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+            });
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDXP - (주)로이테크원</title>
+    <!-- 폰트: Pretendard -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <!-- 아이콘: FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==================== 
+           디자인 시스템 및 변수 
+           ==================== */
+        :root {
+            --primary-color: #007BFF;
+            --primary-dark: #0056b3;
+            --bg-white: #FFFFFF;
+            --bg-light: #F8F9FA;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --text-light: #999999;
+            --footer-bg: #222222;
+            --footer-text: #CCCCCC;
+            --border-color: #E5E5E5;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        /* ==================== 
+           초기화 및 기본 스타일 
+           ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* 컨테이너 */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 섹션 공통 */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        /* 버튼 컴포넌트 (파란색으로 변경) */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ==================== 
+           Header (헤더) 
+           ==================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--text-dark);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* ==================== 
+           Hero Section (메인) 
+           ==================== */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 100px;
+            /* 배경 이미지와 어두운 오버레이 적용 */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            word-break: keep-all;
+            color: var(--bg-white); 
+        }
+
+        .hero-text h1 span {
+            color: #66B2FF; 
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: #E5E5E5;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        /* ==================== 
+           About Us (소개) 
+           ==================== */
+        .about {
+            background-color: var(--bg-white);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-description {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .philosophy-box {
+            background-color: var(--bg-light);
+            border-left: 6px solid var(--primary-color);
+            padding: 40px;
+            border-radius: 0 12px 12px 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .philosophy-box h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .philosophy-box p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        /* ==================== 
+           Products (제품) 
+           ==================== */
+        .products {
+            background-color: var(--bg-light);
+        }
+
+        .products-highlight {
+            background-color: rgba(0, 123, 255, 0.05);
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-top: 4px solid transparent;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .feature-body {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* ==================== 
+           Customers (고객 후기 - 아코디언 UI) 
+           ==================== */
+        .customers {
+            background-color: var(--bg-white);
+        }
+
+        .accordion-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .accordion-header {
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: var(--bg-light);
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background-color: #f0f7ff;
+        }
+
+        .accordion-header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-header-title h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .accordion-header-title p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .accordion-icon {
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .accordion-item.active {
+            border-color: rgba(0, 123, 255, 0.4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .accordion-item.active .accordion-header {
+            background-color: #f0f7ff;
+            border-bottom: 1px solid rgba(0, 123, 255, 0.1);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            background-color: var(--bg-white);
+        }
+
+        .accordion-inner {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .accordion-item.active .accordion-inner {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reviewer-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .review-details {
+            flex-grow: 1;
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .review-text {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+            word-break: keep-all;
+            font-style: italic;
+            margin: 0;
+        }
+
+        /* ==================== 
+           Video (홍보 영상) 
+           ==================== */
+        .video {
+            background-color: var(--bg-light);
+        }
+
+        /* ==================== 
+           Services (서비스) 
+           ==================== */
+        .services {
+            background-color: var(--bg-white); 
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .service-box {
+            padding: 50px;
+            border-radius: 16px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .service-box:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0, 123, 255, 0.3);
+            background-color: var(--bg-white);
+        }
+
+        .service-box i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .service-box h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .service-box p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .service-promise {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ==================== 
+           Booking & Location 
+           ==================== */
+        .booking {
+            background-color: var(--bg-light); 
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            background-color: var(--bg-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-form {
+            padding: 50px;
+        }
+
+        .booking-form h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .booking-form .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .location-info {
+            padding: 50px;
+            background-color: #f4f7fc;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-list {
+            margin-bottom: 40px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            margin-right: 16px;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .info-text h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .info-text p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .map-container {
+            flex-grow: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            min-height: 250px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ==================== 
+           Footer 
+           ==================== */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ==================== 
+           반응형 디자인 (미디어 쿼리) 
+           ==================== */
+        @media (max-width: 992px) {
+            .hero-content {
+                text-align: center;
+            }
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .services-grid {
+                gap: 20px;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 70px 0;
+            }
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--bg-white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: var(--transition);
+                box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .hero {
+                padding-top: 120px;
+            }
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .accordion-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .philosophy-box {
+                padding: 30px 20px;
+            }
+            .philosophy-box p {
+                font-size: 1.4rem;
+            }
+            .products-highlight {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">Roitechone<span>.</span></a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#about" class="nav-link">회사 소개</a></li>
+                <li><a href="#products" class="nav-link">제품 소개</a></li>
+                <li><a href="#customers" class="nav-link">고객 후기</a></li>
+                <li><a href="#video" class="nav-link">홍보 영상</a></li>
+                <li><a href="#services" class="nav-link">서비스</a></li>
+                <li><a href="#booking" class="nav-link">문의 및 예약</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>설계 엔지니어링 업무,<br><span>더 <span>잘하고 <span>놓치지 않게<br> <h1>도와 주는 플랫폼,<br><span>SmartDXP</h1>
+                <p>(주)로이테크원이 제공하는 엔지니어링 특화 솔루션으로 <br>복잡한 설계 프로세스를 표준화하고 기업의 핵심 데이터를 자산화하세요.</p>
+                <a href="#booking" class="btn">도입 문의하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About 로이테크원</h2>
+                <h3 class="section-subtitle">설계 엔지니어링의 미래를 설계하는 파트너</h3>
+                
+                <p class="about-description">
+                    (주)로이테크원은 다년간 축적된 엔지니어링 산업의 이해도와 IT 기술력을 바탕으로, 
+                    설계 기업들이 겪는 실무적인 어려움을 해결하는 데 집중합니다.<br>
+                    수많은 주요 실적을 통해 검증된 우리의 솔루션은 기업의 경쟁력을 한 단계 높여줍니다.
+                </p>
+
+                <div class="philosophy-box">
+                    <h3>운영 철학</h3>
+                    <p>"최고의 기술로, 고객의 ROI를 생각하는 기업"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">SmartDXP</h2>
+            <h3 class="section-subtitle">설계 프로세스 혁신 플랫폼</h3>
+
+            <div class="products-highlight">
+                "업무 누락, 일정 지연, 반복 작업을 줄이고 설계 프로세스를 표준화하여<br>누구나 안정적으로 성과를 내는 환경을 만듭니다."
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop" alt="프로젝트 계획 및 WBS 기반 업무" class="feature-image">
+                    <div class="feature-body">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3>WBS/Act. 기반 업무 수행</h3>
+                        <p>업무가이드 및 매뉴얼, 표준 문서양식, 연결 TOOL 연결, 실시간 이슈 공유 및 선행사례를 제공하여 체계적인 업무 환경을 지원합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?q=80&w=800&auto=format&fit=crop" alt="일정 및 캘린더 관리" class="feature-image">
+                    <div class="feature-body">
+                        <div class="feature-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <h3>담당자와 일정 관리</h3>
+                        <p>명확한 책임수행 체계를 확립하고, 업무 지연 및 누락을 사전에 방지하여 프로젝트의 성공적인 완수를 보장합니다.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="데이터 분석 및 축적" class="feature-image">
+                    <div class="feature-body">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h3>자연스러운 DATA DB 축적</h3>
+                        <p>업무 과정 중 발생하는 DATA를 자동으로 축적합니다. 중복 업무를 배제하고 기업의 소중한 데이터를 영구적인 자산화로 이끕니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customers (고객 후기) -->
+    <section id="customers" class="customers">
+        <div class="container">
+            <h2 class="section-title">Customer Reviews</h2>
+            <h3 class="section-subtitle">SmartDXP와 함께 성장하는 고객들의 이야기</h3>
+            
+            <div class="accordion-container">
+                <!-- 리뷰 1: 40대 남성 -->
+                <div class="accordion-item active">
+                    <div class="accordion-header">
+                        <div class="accordion-header-title">
+                            <h4>이** 수석</h4>
+                            <p>| A 건축사사무소</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop" alt="노트북 앞에서 밝게 웃는 40대 남성 엔지니어" class="reviewer-img">
+                            <div class="review-details">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="review-text">"기존에는 엑셀로 일정을 관리하느라 누락되는 업무가 많았는데, SmartDXP 도입 후 프로젝트 가시성이 확연히 좋아졌습니다. 업무 효율이 놀라울 정도로 향상되었습니다."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 리뷰 2: 40대 여성 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-header-title">
+                            <h4>박** 파트장</h4>
+                            <p>| B 엔지니어링</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400&auto=format&fit=crop" alt="노트북 앞에서 편안하게 미소 짓는 40대 여성 파트장" class="reviewer-img">
+                            <div class="review-details">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="review-text">"팀원들의 업무 진행 상황을 한눈에 파악할 수 있어 프로젝트 매니징이 정말 수월해졌어요. 문서 표준화 덕분에 결과물의 품질도 언제나 높게 유지할 수 있습니다."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 리뷰 3: 20대 남성 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-header-title">
+                            <h4>최** 사원</h4>
+                            <p>| C 설계사무소</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=400&auto=format&fit=crop" alt="노트북 앞에서 만족스럽게 웃고 있는 20대 남성 신입사원" class="reviewer-img">
+                            <div class="review-details">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <p class="review-text">"입사 직후 업무 적응이 걱정이었는데, WBS 기반 가이드와 선행 사례가 시스템에 잘 정리되어 있어 바로 실무에 투입될 수 있었습니다. UI도 직관적이라 편해요!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video (홍보 영상) -->
+    <section id="video" class="video">
+        <div class="container">
+            <h2 class="section-title">SmartDXP Video</h2>
+            <h3 class="section-subtitle">영상을 통해 SmartDXP의 혁신을 직접 확인해 보세요.</h3>
+            
+            <div style="max-width: 1000px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-md); background-color: #000;">
+                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1185156776?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="SmartDXP_설계_업무_혁신_플랫폼"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">제공 서비스</h2>
+            <h3 class="section-subtitle">도입부터 운영까지 완벽한 지원 체계</h3>
+
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-box">
+                    <i class="fa-solid fa-cloud"></i>
+                    <h3>CLOUD 서비스</h3>
+                    <p>서버 등 고가의 인프라를 직접 구축할 필요 없이 제공합니다. 전문 IDC 인프라를 활용하여 24시간 365일 안정된 시스템 성능과 강력한 보안 환경을 약속합니다.</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-box">
+                    <i class="fa-solid fa-headset"></i>
+                    <h3>전문 교육 및 운영 서비스</h3>
+                    <p>풍부한 경험을 갖춘 전문기술자가 직접 사용자 교육을 진행합니다. 신속한 전화/이메일 사용자 응대와 요구 시 원격지원 서비스를 통해 막힘없는 실무를 돕습니다.</p>
+                </div>
+            </div>
+
+            <div class="service-promise">
+                "오랜 경험의 서비스를 통해 차별화된 만족감을 약속합니다."
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking & Location -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <h2 class="section-title">문의 및 오시는 길</h2>
+            <h3 class="section-subtitle">지금 바로 상담을 예약하시고, 혁신을 시작하세요.</h3>
+
+            <div class="booking-grid">
+                <!-- Form -->
+                <div class="booking-form">
+                    <h3>상담 및 도입 문의</h3>
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="name">이름 (회사명)</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="홍길동 (또는 기업명)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">이메일 주소</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="example@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">연락처</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="010-0000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">방문/상담 희망일자</label>
+                            <input type="date" id="date" name="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">질문 내용</label>
+                            <textarea id="message" name="message" class="form-control" rows="4" placeholder="문의하실 내용을 상세히 적어주세요."></textarea>
+                        </div>
+                        <button type="submit" class="btn">상담 문의하기</button>
+                    </form>
+                </div>
+
+                <!-- Info & Map -->
+                <div class="location-info">
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="info-text">
+                                <h4>고객센터 연락처</h4>
+                                <p>1644-8665</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+                            <div class="info-text">
+                                <h4>운영 시간</h4>
+                                <p>평일 오전 9시 ~ 오후 6시</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="info-text">
+                                <h4>오시는 길</h4>
+                                <p>서울시 구로구 디지털로 272</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Google Maps iframe -->
+                    <div class="map-container">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=서울시%20구로구%20디지털로%20272&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p>Copyright 2026 Roitechone Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 헤더 스크롤 그림자 효과
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // 2. 모바일 메뉴 토글
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                const icon = mobileToggle.querySelector('i');
+                if(navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // 모바일 메뉴 링크 클릭 시 메뉴 닫기
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    const icon = mobileToggle.querySelector('i');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // 3. 부드러운 스크롤 이동 (Smooth Scroll)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        // 헤더 높이만큼 오프셋 계산 (80px)
+                        const headerHeight = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // 4. Accordion Toggle (고객 후기)
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            // 초기 활성화된 아코디언의 높이 설정 (초기 렌더링 시 적용)
+            const initActiveItem = document.querySelector('.accordion-item.active .accordion-content');
+            if (initActiveItem) {
+                initActiveItem.style.maxHeight = initActiveItem.scrollHeight + "px";
+            }
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const content = item.querySelector('.accordion-content');
+                    
+                    if (item.classList.contains('active')) {
+                        // 열려있으면 닫기
+                        item.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        // 다른 열려있는 모든 아코디언 닫기
+                        document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                            if(otherItem.querySelector('.accordion-content')) {
+                                otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                            }
+                        });
+                        
+                        // 현재 클릭한 아코디언 열기
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // 5. 구글 시트 연동 예약 폼 제출 처리
+            const form = document.getElementById('booking-form');
+            // TODO: 연동 가이드를 따라 발급받은 URL을 아래 문자열에 붙여넣으세요.
+            const scriptURL = 'https://script.google.com/macros/s/AKfycby2ErsYynDJ3aeNwNrNIuPBDsq9lSV-b2-8s0W8V3SnEfrHIfWL6B5CZm2O6iHsaVME/exechttps://script.google.com/macros/s/AKfycby2ErsYynDJ3aeNwNrNIuPBDsq9lSV-b2-8s0W8V3SnEfrHIfWL6B5CZm2O6iHsaVME/exec';
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+                
+                if(scriptURL === 'https://script.google.com/macros/s/AKfycby2ErsYynDJ3aeNwNrNIuPBDsq9lSV-b2-8s0W8V3SnEfrHIfWL6B5CZm2O6iHsaVME/exec') {
+                    alert('구글 시트 연동 URL이 설정되지 않았습니다.\n개발 가이드를 참고하여 scriptURL을 업데이트 해주세요.');
+                    return;
+                }
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerText;
+                submitBtn.innerText = '전송 중...';
+                submitBtn.disabled = true;
+
+                // 폼 데이터 수집
+                const formData = new FormData(form);
+
+                // 구글 스크립트로 데이터 전송 (CORS 이슈 방지를 위해 no-cors 모드 사용)
+                fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' })
+                    .then(() => {
+                        alert('상담 문의가 성공적으로 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
+                        form.reset();
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Error!', error.message);
+                        alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
